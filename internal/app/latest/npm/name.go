@@ -1,0 +1,6 @@
+package npm
+
+// Name returns the name of the brew executable.
+func (u Upgrader) Name() string {
+	return name
+}
