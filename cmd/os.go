@@ -8,6 +8,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/mastertinner/latest/internal/app/latest"
 	"github.com/mastertinner/latest/internal/app/latest/brew"
+	"github.com/mastertinner/latest/internal/app/latest/mas"
 	"github.com/mastertinner/latest/internal/app/latest/npm"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -19,6 +20,7 @@ var osCmd = &cobra.Command{
 	Short: "Update and upgrade your OS to the latest and greatest",
 	Run: func(cmd *cobra.Command, args []string) {
 		upgraders := []latest.Upgrader{
+			mas.New(verbose),
 			brew.New(verbose),
 			npm.New(verbose),
 		}
