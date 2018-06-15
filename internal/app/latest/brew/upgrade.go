@@ -51,6 +51,16 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 		upgrades <- u
 	}
 
+	cCmd := exec.Command("brew", "cleanup")
+	if u.verbose {
+		cCmd.Stdout = os.Stdout
+		cCmd.Stderr = os.Stderr
+	}
+	err = cCmd.Run()
+	if err != nil {
+		return errors.Wrap(err, "error running brew cleanup")
+	}
+
 	return nil
 }
 
