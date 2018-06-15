@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"log"
 	"sync"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/fatih/color"
 	"github.com/mastertinner/latest/internal/app/latest"
 	"github.com/mastertinner/latest/internal/app/latest/brew"
+	"github.com/mastertinner/latest/internal/app/latest/gem"
 	"github.com/mastertinner/latest/internal/app/latest/mas"
 	"github.com/mastertinner/latest/internal/app/latest/npm"
 	"github.com/pkg/errors"
@@ -19,10 +22,13 @@ var osCmd = &cobra.Command{
 	Use:   "os",
 	Short: "Update and upgrade your OS to the latest and greatest",
 	Run: func(cmd *cobra.Command, args []string) {
+		s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+		s.Start()
 		upgraders := []latest.Upgrader{
 			mas.New(verbose),
 			brew.New(verbose),
 			npm.New(verbose),
+			gem.New(verbose),
 		}
 
 		upgrades := make(chan latest.Upgrade)
@@ -41,6 +47,7 @@ var osCmd = &cobra.Command{
 		for u := range upgrades {
 			fmt.Printf("%s: %s %s ==> %s\n", u.Upgrader, highlight.Sprint(u.Package), u.VersionFrom, highlight.Sprint(u.VersionTo))
 		}
+		s.Stop()
 	},
 }
 
