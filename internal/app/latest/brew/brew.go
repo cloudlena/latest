@@ -10,5 +10,5 @@ type Upgrader struct {
 
 // New creates a new Upgrader.
 func New(verbose bool) Upgrader {
-	return Upgrader{verbose}
+	return Upgrader{verbose: verbose}
 }

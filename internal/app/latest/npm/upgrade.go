@@ -23,8 +23,8 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	}
 
 	npmUpgrades := upgradesFromOutput(string(out))
-	for _, u := range npmUpgrades {
-		upgrades <- u
+	for i := range npmUpgrades {
+		upgrades <- npmUpgrades[i]
 	}
 
 	return nil

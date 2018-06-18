@@ -7,7 +7,7 @@ Update and upgrade all the things!
 ## Installation
 
 ```shell
-$ go get -u github.com/mastertinner/latest
+$ go get -u github.com/mastertinner/latest/cmd/latest
 ```
 
 ## Usage
