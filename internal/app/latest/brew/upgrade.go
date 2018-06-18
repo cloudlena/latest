@@ -32,8 +32,8 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 		return errors.Wrap(err, "error running brew upgrade")
 	}
 	ugUpgrades := upgradesFromOutput(string(ugOut))
-	for _, u := range ugUpgrades {
-		upgrades <- u
+	for i := range ugUpgrades {
+		upgrades <- ugUpgrades[i]
 	}
 
 	cuCmd := exec.Command("brew", "cu", "--all", "--yes", "--cleanup")
@@ -47,8 +47,8 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	}
 
 	cuUpgrades := upgradesFromCaskOutput(string(cuOut))
-	for _, u := range cuUpgrades {
-		upgrades <- u
+	for i := range cuUpgrades {
+		upgrades <- cuUpgrades[i]
 	}
 
 	cCmd := exec.Command("brew", "cleanup")

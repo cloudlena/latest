@@ -23,8 +23,8 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	}
 
 	gemUpgrades := upgradesFromOutput(string(out))
-	for _, u := range gemUpgrades {
-		upgrades <- u
+	for i := range gemUpgrades {
+		upgrades <- gemUpgrades[i]
 	}
 
 	cCmd := exec.Command("gem", "cleanup")

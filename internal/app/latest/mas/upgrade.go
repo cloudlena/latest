@@ -22,9 +22,9 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 		return errors.Wrap(err, "error running brew upgrade")
 	}
 
-	cuUpgrades := upgradesFromOutput(string(out))
-	for _, u := range cuUpgrades {
-		upgrades <- u
+	masUpgrades := upgradesFromOutput(string(out))
+	for i := range masUpgrades {
+		upgrades <- masUpgrades[i]
 	}
 
 	return nil

@@ -45,7 +45,13 @@ var osCmd = &cobra.Command{
 
 		highlight := color.New(color.FgGreen, color.Bold)
 		for u := range upgrades {
-			fmt.Printf("%s: %s %s ==> %s\n", u.Upgrader, highlight.Sprint(u.Package), u.VersionFrom, highlight.Sprint(u.VersionTo))
+			fmt.Printf(
+				"%s: %s %s ==> %s\n",
+				u.Upgrader,
+				highlight.Sprint(u.Package),
+				u.VersionFrom,
+				highlight.Sprint(u.VersionTo),
+			)
 		}
 		s.Stop()
 	},
