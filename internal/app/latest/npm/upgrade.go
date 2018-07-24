@@ -10,6 +10,9 @@ import (
 	"github.com/pkg/errors"
 )
 
+// upgradeRegex contains the name and version of upgrades.
+var upgradeRegex = regexp.MustCompile(`^\+ (.*)@(.*)$`)
+
 // Upgrade updates and upgrades all globally installed npm packages.
 func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	cmd := exec.Command("npm", "update", "-g")
@@ -31,11 +34,10 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 }
 
 func upgradesFromOutput(out string) []latest.Upgrade {
-	re := regexp.MustCompile(`^\+ (.*)@(.*)$`)
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
-		res := re.FindAllStringSubmatch(l, -1)
+		res := upgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
 			u := latest.Upgrade{
 				Upgrader:  name,

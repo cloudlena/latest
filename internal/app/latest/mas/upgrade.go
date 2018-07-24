@@ -10,6 +10,9 @@ import (
 	"github.com/pkg/errors"
 )
 
+// upgradeRegex contains the name and version of upgrades.
+var upgradeRegex = regexp.MustCompile(`^ ?(.*) \((.*)\)$`)
+
 // Upgrade updates and upgrades brew.
 func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	cmd := exec.Command("mas", "upgrade")
@@ -31,12 +34,11 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 }
 
 func upgradesFromOutput(out string) []latest.Upgrade {
-	re := regexp.MustCompile(`^ ?(.*) \((.*)\)$`)
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
 		for _, p := range strings.Split(l, ",") {
-			res := re.FindAllStringSubmatch(p, -1)
+			res := upgradeRegex.FindAllStringSubmatch(p, -1)
 			if len(res) != 0 {
 				u := latest.Upgrade{
 					Upgrader:  name,

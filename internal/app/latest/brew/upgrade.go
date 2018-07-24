@@ -10,6 +10,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+// These regexes contain the name and version of upgrades.
+var (
+	upgradeRegex     = regexp.MustCompile(`^==> Pouring (.*)-(.*)\.[a-zA-Z_]*\.bottle\.tar\.gz$`)
+	caskUpgradeRegex = regexp.MustCompile(`^==> Upgrading (.*) to (.*)$`)
+)
+
 // Upgrade updates and upgrades brew.
 func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	udCmd := exec.Command("brew", "update")
@@ -65,11 +71,10 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 }
 
 func upgradesFromOutput(out string) []latest.Upgrade {
-	re := regexp.MustCompile(`^==> Pouring (.*)-(.*)\.[a-zA-Z_]*\.bottle\.tar\.gz$`)
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
-		res := re.FindAllStringSubmatch(l, -1)
+		res := upgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
 			u := latest.Upgrade{
 				Upgrader:  name,
@@ -84,11 +89,10 @@ func upgradesFromOutput(out string) []latest.Upgrade {
 }
 
 func upgradesFromCaskOutput(out string) []latest.Upgrade {
-	re := regexp.MustCompile(`^==> Upgrading (.*) to (.*)$`)
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
-		res := re.FindAllStringSubmatch(l, -1)
+		res := caskUpgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
 			u := latest.Upgrade{
 				Upgrader:  name,
