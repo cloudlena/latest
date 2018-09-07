@@ -8,7 +8,7 @@ type Upgrader struct {
 	verbose bool
 }
 
-// New creates a new Upgrader.
-func New(verbose bool) Upgrader {
+// Make creates a new Upgrader.
+func Make(verbose bool) Upgrader {
 	return Upgrader{verbose: verbose}
 }
