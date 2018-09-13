@@ -14,7 +14,7 @@ import (
 var upgradeRegex = regexp.MustCompile(`^\+ (.*)@(.*)$`)
 
 // Upgrade updates and upgrades all globally installed npm packages.
-func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
+func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	cmd := exec.Command("npm", "update", "-g")
 	if u.verbose {
 		cmd.Stdout = os.Stdout
@@ -25,22 +25,22 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 		return errors.Wrap(err, "error running npm update -g")
 	}
 
-	npmUpgrades := upgradesFromOutput(string(out))
+	npmUpgrades := u.upgradesFromOutput(string(out))
 	for i := range npmUpgrades {
-		upgrades <- npmUpgrades[i]
+		upgradesCh <- npmUpgrades[i]
 	}
 
 	return nil
 }
 
-func upgradesFromOutput(out string) []latest.Upgrade {
+func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
 		res := upgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
 			u := latest.Upgrade{
-				Upgrader:  name,
+				Upgrader:  u.name,
 				Package:   res[0][1],
 				VersionTo: res[0][2],
 			}

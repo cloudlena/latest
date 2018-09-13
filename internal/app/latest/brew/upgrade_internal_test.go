@@ -38,7 +38,8 @@ zsh completions have been installed to:
 	for _, tc := range cases {
 		t.Run(tc.description, func(t *testing.T) {
 			is := is.New(t)
-			upgrades := upgradesFromOutput(tc.output)
+			u := upgrader{name: "brew"}
+			upgrades := u.upgradesFromOutput(tc.output)
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}
@@ -106,7 +107,8 @@ Warning: It seems there is already an App at '/Applications/Visual Studio Code.a
 	for _, tc := range cases {
 		t.Run(tc.description, func(t *testing.T) {
 			is := is.New(t)
-			upgrades := upgradesFromCaskOutput(tc.output)
+			u := upgrader{name: "brew"}
+			upgrades := u.upgradesFromCaskOutput(tc.output)
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}

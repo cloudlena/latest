@@ -79,7 +79,8 @@ Done installing documentation for rack after 0 seconds
 	for _, tc := range cases {
 		t.Run(tc.description, func(t *testing.T) {
 			is := is.New(t)
-			upgrades := upgradesFromOutput(tc.output)
+			u := upgrader{name: "gem"}
+			upgrades := u.upgradesFromOutput(tc.output)
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}
