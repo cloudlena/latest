@@ -14,7 +14,7 @@ import (
 var upgradeRegex = regexp.MustCompile(`^ ?(.*) \((.*)\)$`)
 
 // Upgrade updates and upgrades brew.
-func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
+func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	cmd := exec.Command("mas", "upgrade")
 	if u.verbose {
 		cmd.Stdout = os.Stdout
@@ -25,15 +25,15 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 		return errors.Wrap(err, "error running brew upgrade")
 	}
 
-	masUpgrades := upgradesFromOutput(string(out))
+	masUpgrades := u.upgradesFromOutput(string(out))
 	for i := range masUpgrades {
-		upgrades <- masUpgrades[i]
+		upgradesCh <- masUpgrades[i]
 	}
 
 	return nil
 }
 
-func upgradesFromOutput(out string) []latest.Upgrade {
+func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
@@ -41,7 +41,7 @@ func upgradesFromOutput(out string) []latest.Upgrade {
 			res := upgradeRegex.FindAllStringSubmatch(p, -1)
 			if len(res) != 0 {
 				u := latest.Upgrade{
-					Upgrader:  name,
+					Upgrader:  u.name,
 					Package:   res[0][1],
 					VersionTo: res[0][2],
 				}

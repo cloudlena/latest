@@ -1,7 +1,7 @@
 module github.com/mastertinner/latest
 
 require (
-	github.com/briandowns/spinner v0.0.0-20180822135157-9f016caa1359
+	github.com/briandowns/spinner v0.0.0-20180928220820-bbeb66ec3653
 	github.com/fatih/color v1.7.0
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/matryer/is v1.1.0
@@ -9,6 +9,6 @@ require (
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/pkg/errors v0.8.0
 	github.com/spf13/cobra v0.0.3
-	github.com/spf13/pflag v1.0.2 // indirect
-	golang.org/x/sys v0.0.0-20180909124046-d0be0721c37e // indirect
+	github.com/spf13/pflag v1.0.3 // indirect
+	golang.org/x/sys v0.0.0-20181004145325-8469e314837c // indirect
 )

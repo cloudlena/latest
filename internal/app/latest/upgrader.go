@@ -11,5 +11,5 @@ type Upgrade struct {
 // Upgrader updates and upgrades stuff.
 type Upgrader interface {
 	Name() string
-	Upgrade(upgradeChan chan<- Upgrade) error
+	Upgrade(upgradeCh chan<- Upgrade) error
 }

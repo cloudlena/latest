@@ -57,7 +57,8 @@ Xcode (7.0), Screens VNC - Access Your Computer From Anywhere (3.6.7)
 	for _, tc := range cases {
 		t.Run(tc.description, func(t *testing.T) {
 			is := is.New(t)
-			upgrades := upgradesFromOutput(tc.output)
+			u := upgrader{name: "mas"}
+			upgrades := u.upgradesFromOutput(tc.output)
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}

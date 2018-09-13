@@ -17,7 +17,7 @@ var (
 )
 
 // Upgrade updates and upgrades brew.
-func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
+func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	udCmd := exec.Command("brew", "update")
 	if u.verbose {
 		udCmd.Stdout = os.Stdout
@@ -37,9 +37,9 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	if err != nil {
 		return errors.Wrap(err, "error running brew upgrade")
 	}
-	ugUpgrades := upgradesFromOutput(string(ugOut))
+	ugUpgrades := u.upgradesFromOutput(string(ugOut))
 	for i := range ugUpgrades {
-		upgrades <- ugUpgrades[i]
+		upgradesCh <- ugUpgrades[i]
 	}
 
 	cuCmd := exec.Command("brew", "cu", "--all", "--yes", "--cleanup")
@@ -52,9 +52,9 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 		return errors.Wrap(err, "error running brew upgrade")
 	}
 
-	cuUpgrades := upgradesFromCaskOutput(string(cuOut))
+	cuUpgrades := u.upgradesFromCaskOutput(string(cuOut))
 	for i := range cuUpgrades {
-		upgrades <- cuUpgrades[i]
+		upgradesCh <- cuUpgrades[i]
 	}
 
 	cCmd := exec.Command("brew", "cleanup")
@@ -70,14 +70,14 @@ func (u Upgrader) Upgrade(upgrades chan<- latest.Upgrade) error {
 	return nil
 }
 
-func upgradesFromOutput(out string) []latest.Upgrade {
+func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
 		res := upgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
 			u := latest.Upgrade{
-				Upgrader:  name,
+				Upgrader:  u.name,
 				Package:   res[0][1],
 				VersionTo: res[0][2],
 			}
@@ -88,14 +88,14 @@ func upgradesFromOutput(out string) []latest.Upgrade {
 	return upgrades
 }
 
-func upgradesFromCaskOutput(out string) []latest.Upgrade {
+func (u *upgrader) upgradesFromCaskOutput(out string) []latest.Upgrade {
 	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
 	for _, l := range lines {
 		res := caskUpgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
 			u := latest.Upgrade{
-				Upgrader:  name,
+				Upgrader:  u.name,
 				Package:   res[0][1],
 				VersionTo: res[0][2],
 			}

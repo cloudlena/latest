@@ -1,14 +1,18 @@
 package mas
 
-// name is the name of this upgrader.
-const name = "mas"
+import "github.com/mastertinner/latest/internal/app/latest"
 
-// Upgrader is the mas upgrader.
-type Upgrader struct {
+// upgrader is the mas upgrader.
+type upgrader struct {
+	name    string
 	verbose bool
 }
 
-// Make creates a new Upgrader.
-func Make(verbose bool) Upgrader {
-	return Upgrader{verbose: verbose}
+// Make creates a new upgrader.
+func Make(verbose bool) latest.Upgrader {
+	u := upgrader{
+		name:    "mas",
+		verbose: verbose,
+	}
+	return &u
 }
