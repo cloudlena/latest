@@ -1,14 +1,16 @@
-.PHONY: all install lint test
+.PHONY: all install lint test clean
 
 all:
-	go build
+	go build -o bin/latest
 
 install:
 	go install
 
 lint:
-	golangci-lint run --enable-all --disable lll
-	gocritic check-project .
+	golangci-lint run
 
 test:
 	go test -race -cover ./...
+
+clean:
+	rm -rf bin

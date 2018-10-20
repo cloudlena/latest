@@ -8,8 +8,8 @@ type upgrader struct {
 	verbose bool
 }
 
-// Make creates a new upgrader.
-func Make(verbose bool) latest.Upgrader {
+// New creates a new upgrader.
+func New(verbose bool) latest.Upgrader {
 	u := upgrader{
 		name:    "mas",
 		verbose: verbose,
