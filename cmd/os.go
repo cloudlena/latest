@@ -25,10 +25,10 @@ var osCmd = &cobra.Command{
 		s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
 		s.Start()
 		upgraders := []latest.Upgrader{
-			mas.Make(verbose),
-			brew.Make(verbose),
-			npm.Make(verbose),
-			gem.Make(verbose),
+			mas.New(verbose),
+			brew.New(verbose),
+			npm.New(verbose),
+			gem.New(verbose),
 		}
 
 		upgrades := make(chan latest.Upgrade)
