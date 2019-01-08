@@ -9,12 +9,12 @@ import (
 
 func TestUpgradesFromOutput(t *testing.T) {
 	cases := []struct {
-		description      string
+		it               string
 		output           string
 		expectedUpgrades []latest.Upgrade
 	}{
 		{
-			description: "parses gem output correctly",
+			it: "parses gem output correctly",
 			output: `
 Updating installed gems
 Updating bundler
@@ -38,7 +38,7 @@ Gems updated: bundler
 			},
 		},
 		{
-			description: "parses multiple packages correctly",
+			it: "parses multiple packages correctly",
 			output: `
 			Updating installed gems
 Updating bundler
@@ -77,7 +77,7 @@ Done installing documentation for rack after 0 seconds
 	}
 
 	for _, tc := range cases {
-		t.Run(tc.description, func(t *testing.T) {
+		t.Run(tc.it, func(t *testing.T) {
 			is := is.New(t)
 			u := upgrader{name: "gem"}
 			upgrades := u.upgradesFromOutput(tc.output)
