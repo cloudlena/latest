@@ -9,12 +9,12 @@ import (
 
 func TestUpgradesFromOutput(t *testing.T) {
 	cases := []struct {
-		description      string
+		it               string
 		output           string
 		expectedUpgrades []latest.Upgrade
 	}{
 		{
-			description: "parses brew output correctly",
+			it: "parses brew output correctly",
 			output: `
 ==> Downloading https://homebrew.bintray.com/bottles/packer-1.2.4.high_sierra.bottle.tar.gz
 Already downloaded: /Users/Tobi/Library/Caches/Homebrew/packer-1.2.4.high_sierra.bottle.tar.gz
@@ -36,7 +36,7 @@ zsh completions have been installed to:
 	}
 
 	for _, tc := range cases {
-		t.Run(tc.description, func(t *testing.T) {
+		t.Run(tc.it, func(t *testing.T) {
 			is := is.New(t)
 			u := upgrader{name: "brew"}
 			upgrades := u.upgradesFromOutput(tc.output)
@@ -47,12 +47,12 @@ zsh completions have been installed to:
 
 func TestUpgradesFromCaskOutput(t *testing.T) {
 	cases := []struct {
-		description      string
+		it               string
 		output           string
 		expectedUpgrades []latest.Upgrade
 	}{
 		{
-			description: "parses brew output correctly",
+			it: "parses brew output correctly",
 			output: `
 ==> Options
 Include auto-update (-a): true
@@ -105,7 +105,7 @@ Warning: It seems there is already an App at '/Applications/Visual Studio Code.a
 	}
 
 	for _, tc := range cases {
-		t.Run(tc.description, func(t *testing.T) {
+		t.Run(tc.it, func(t *testing.T) {
 			is := is.New(t)
 			u := upgrader{name: "brew"}
 			upgrades := u.upgradesFromCaskOutput(tc.output)

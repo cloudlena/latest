@@ -9,12 +9,12 @@ import (
 
 func TestUpgradesFromOutput(t *testing.T) {
 	cases := []struct {
-		description      string
+		it               string
 		output           string
 		expectedUpgrades []latest.Upgrade
 	}{
 		{
-			description: "parses npm output correctly",
+			it: "parses npm output correctly",
 			output: `
 /usr/local/bin/create-react-app -> /usr/local/lib/node_modules/create-react-app/index.js
 + create-react-app@1.5.2
@@ -29,7 +29,7 @@ added 5 packages from 3 contributors and updated 2 packages in 2.091s
 			},
 		},
 		{
-			description: "parses multiple packages correctly",
+			it: "parses multiple packages correctly",
 			output: `
 /usr/local/bin/create-react-app -> /usr/local/lib/node_modules/create-react-app/index.js
 /usr/local/bin/tslint -> /usr/local/lib/node_modules/tslint/bin/tslint
@@ -56,7 +56,7 @@ added 5 packages from 3 contributors and updated 3 packages in 2.446s
 	}
 
 	for _, tc := range cases {
-		t.Run(tc.description, func(t *testing.T) {
+		t.Run(tc.it, func(t *testing.T) {
 			is := is.New(t)
 			u := upgrader{name: "npm"}
 			upgrades := u.upgradesFromOutput(tc.output)

@@ -9,12 +9,12 @@ import (
 
 func TestUpgradesFromOutput(t *testing.T) {
 	cases := []struct {
-		description      string
+		it               string
 		output           string
 		expectedUpgrades []latest.Upgrade
 	}{
 		{
-			description: "parses mas output correctly",
+			it: "parses mas output correctly",
 			output: `
 Upgrading 1 outdated application:
 Xcode (8.0)
@@ -30,7 +30,7 @@ Xcode (8.0)
 			},
 		},
 		{
-			description: "parses mas output correctly for multiple packages",
+			it: "parses mas output correctly for multiple packages",
 			output: `
 Upgrading 2 outdated applications:
 Xcode (7.0), Screens VNC - Access Your Computer From Anywhere (3.6.7)
@@ -55,7 +55,7 @@ Xcode (7.0), Screens VNC - Access Your Computer From Anywhere (3.6.7)
 	}
 
 	for _, tc := range cases {
-		t.Run(tc.description, func(t *testing.T) {
+		t.Run(tc.it, func(t *testing.T) {
 			is := is.New(t)
 			u := upgrader{name: "mas"}
 			upgrades := u.upgradesFromOutput(tc.output)
