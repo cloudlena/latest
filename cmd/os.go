@@ -21,7 +21,7 @@ import (
 var osCmd = &cobra.Command{
 	Use:   "os",
 	Short: "Update and upgrade your OS to the latest and greatest",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(*cobra.Command, []string) {
 		s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
 		s.Start()
 		upgraders := []latest.Upgrader{

@@ -1,8 +1,7 @@
 # Latest
 
-[![Release](https://img.shields.io/github/release/mastertinner/latest.svg)](https://github.com/mastertinner/latest/releases/latest)
-[![Build Status](https://travis-ci.org/mastertinner/latest.svg?branch=master)](https://travis-ci.org/mastertinner/latest)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mastertinner/latest)](https://goreportcard.com/report/github.com/mastertinner/latest)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mastertinner/s3manager?style=flat-square)](https://goreportcard.com/report/github.com/mastertinner/s3manager)
+[![Build Status](https://img.shields.io/travis/mastertinner/s3manager.svg?style=flat-square)](https://travis-ci.org/mastertinner/s3manager)
 
 Update and upgrade all the things!
 
