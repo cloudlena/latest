@@ -10,9 +10,8 @@ type upgrader struct {
 
 // New creates a new Upgrader.
 func New(verbose bool) latest.Upgrader {
-	u := upgrader{
+	return &upgrader{
 		name:    "brew",
 		verbose: verbose,
 	}
-	return &u
 }

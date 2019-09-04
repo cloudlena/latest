@@ -1,13 +1,13 @@
 package brew
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"regexp"
 	"strings"
 
 	"github.com/mastertinner/latest/internal/app/latest"
-	"github.com/pkg/errors"
 )
 
 // These regexes contain the name and version of upgrades.
@@ -23,9 +23,10 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 		udCmd.Stdout = os.Stdout
 		udCmd.Stderr = os.Stderr
 	}
+
 	err := udCmd.Run()
 	if err != nil {
-		return errors.Wrap(err, "error running brew update")
+		return fmt.Errorf("error running brew update: %w", err)
 	}
 
 	ugCmd := exec.Command("brew", "upgrade", "--cleanup")
@@ -33,10 +34,12 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 		ugCmd.Stdout = os.Stdout
 		ugCmd.Stderr = os.Stderr
 	}
+
 	ugOut, err := ugCmd.Output()
 	if err != nil {
-		return errors.Wrap(err, "error running brew upgrade")
+		return fmt.Errorf("error running brew upgrade: %w", err)
 	}
+
 	ugUpgrades := u.upgradesFromOutput(string(ugOut))
 	for i := range ugUpgrades {
 		upgradesCh <- ugUpgrades[i]
@@ -47,9 +50,10 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 		cuCmd.Stdout = os.Stdout
 		cuCmd.Stderr = os.Stderr
 	}
+
 	cuOut, err := cuCmd.Output()
 	if err != nil {
-		return errors.Wrap(err, "error running brew upgrade")
+		return fmt.Errorf("error running brew upgrade: %w", err)
 	}
 
 	cuUpgrades := u.upgradesFromCaskOutput(string(cuOut))
@@ -62,17 +66,19 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 		cCmd.Stdout = os.Stdout
 		cCmd.Stderr = os.Stderr
 	}
+
 	err = cCmd.Run()
 	if err != nil {
-		return errors.Wrap(err, "error running brew cleanup")
+		return fmt.Errorf("error running brew cleanup: %w", err)
 	}
 
 	return nil
 }
 
 func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
-	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
+
+	lines := strings.Split(out, "\n")
 	for _, l := range lines {
 		res := upgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {
@@ -89,8 +95,9 @@ func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 }
 
 func (u *upgrader) upgradesFromCaskOutput(out string) []latest.Upgrade {
-	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
+
+	lines := strings.Split(out, "\n")
 	for _, l := range lines {
 		res := caskUpgradeRegex.FindAllStringSubmatch(l, -1)
 		if len(res) != 0 {

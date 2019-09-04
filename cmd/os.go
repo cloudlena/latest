@@ -13,16 +13,17 @@ import (
 	"github.com/mastertinner/latest/internal/app/latest/gem"
 	"github.com/mastertinner/latest/internal/app/latest/mas"
 	"github.com/mastertinner/latest/internal/app/latest/npm"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
+
+const spinnerTimeout = 100 * time.Millisecond
 
 // osCmd represents the os command.
 var osCmd = &cobra.Command{
 	Use:   "os",
 	Short: "Update and upgrade your OS to the latest and greatest",
 	Run: func(*cobra.Command, []string) {
-		s := spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+		s := spinner.New(spinner.CharSets[14], spinnerTimeout)
 		s.Start()
 		upgraders := []latest.Upgrader{
 			mas.New(verbose),
@@ -63,11 +64,12 @@ func init() {
 
 func performUpgrades(u latest.Upgrader, wg *sync.WaitGroup, upgrades chan<- latest.Upgrade) {
 	defer wg.Done()
+
 	name := u.Name()
 	if latest.CmdExists(name) {
 		err := u.Upgrade(upgrades)
 		if err != nil {
-			log.Fatal(errors.Wrapf(err, "error upgrading %s packages", name))
+			log.Fatal(fmt.Errorf("error upgrading %s packages: %w", name, err))
 		}
 	}
 }
