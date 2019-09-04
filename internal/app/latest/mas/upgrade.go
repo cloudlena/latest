@@ -1,13 +1,13 @@
 package mas
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"regexp"
 	"strings"
 
 	"github.com/mastertinner/latest/internal/app/latest"
-	"github.com/pkg/errors"
 )
 
 // upgradeRegex contains the name and version of upgrades.
@@ -20,9 +20,10 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 	}
+
 	out, err := cmd.Output()
 	if err != nil {
-		return errors.Wrap(err, "error running brew upgrade")
+		return fmt.Errorf("error running brew upgrade: %w", err)
 	}
 
 	masUpgrades := u.upgradesFromOutput(string(out))
@@ -34,8 +35,9 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 }
 
 func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
-	lines := strings.Split(out, "\n")
 	upgrades := []latest.Upgrade{}
+
+	lines := strings.Split(out, "\n")
 	for _, l := range lines {
 		for _, p := range strings.Split(l, ",") {
 			res := upgradeRegex.FindAllStringSubmatch(p, -1)
