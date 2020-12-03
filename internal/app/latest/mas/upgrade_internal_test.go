@@ -8,6 +8,8 @@ import (
 )
 
 func TestUpgradesFromOutput(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		it               string
 		output           string
@@ -55,10 +57,15 @@ Xcode (7.0), Screens VNC - Access Your Computer From Anywhere (3.6.7)
 	}
 
 	for _, tc := range cases {
+		tc := tc
 		t.Run(tc.it, func(t *testing.T) {
+			t.Parallel()
 			is := is.New(t)
+
 			u := upgrader{name: "mas"}
+
 			upgrades := u.upgradesFromOutput(tc.output)
+
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}

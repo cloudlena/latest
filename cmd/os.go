@@ -69,7 +69,8 @@ func performUpgrades(u latest.Upgrader, wg *sync.WaitGroup, upgrades chan<- late
 	if latest.CmdExists(name) {
 		err := u.Upgrade(upgrades)
 		if err != nil {
-			log.Fatal(fmt.Errorf("error upgrading %s packages: %w", name, err))
+			log.Println(fmt.Errorf("error upgrading %s packages: %w", name, err))
+			return
 		}
 	}
 }

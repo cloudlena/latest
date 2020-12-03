@@ -8,6 +8,8 @@ import (
 )
 
 func TestUpgradesFromOutput(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		it               string
 		output           string
@@ -56,10 +58,15 @@ added 5 packages from 3 contributors and updated 3 packages in 2.446s
 	}
 
 	for _, tc := range cases {
+		tc := tc
 		t.Run(tc.it, func(t *testing.T) {
+			t.Parallel()
 			is := is.New(t)
+
 			u := upgrader{name: "npm"}
+
 			upgrades := u.upgradesFromOutput(tc.output)
+
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}
