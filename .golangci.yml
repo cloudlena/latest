@@ -2,11 +2,13 @@ linters:
   enable-all: true
   disable:
     - exhaustivestruct
+    - forbidigo
     - funlen
     - gochecknoglobals
     - gochecknoinits
+    - ifshort
     - lll
-    - scopelint
+    - nlreturn
     - wsl
 
 linters-settings:

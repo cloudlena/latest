@@ -8,6 +8,8 @@ import (
 )
 
 func TestUpgradesFromOutput(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		it               string
 		output           string
@@ -36,16 +38,23 @@ zsh completions have been installed to:
 	}
 
 	for _, tc := range cases {
+		tc := tc
 		t.Run(tc.it, func(t *testing.T) {
+			t.Parallel()
 			is := is.New(t)
+
 			u := upgrader{name: "brew"}
+
 			upgrades := u.upgradesFromOutput(tc.output)
+
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}
 }
 
 func TestUpgradesFromCaskOutput(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		it               string
 		output           string
@@ -105,10 +114,15 @@ Warning: It seems there is already an App at '/Applications/Visual Studio Code.a
 	}
 
 	for _, tc := range cases {
+		tc := tc
 		t.Run(tc.it, func(t *testing.T) {
+			t.Parallel()
 			is := is.New(t)
+
 			u := upgrader{name: "brew"}
+
 			upgrades := u.upgradesFromCaskOutput(tc.output)
+
 			is.Equal(upgrades, tc.expectedUpgrades) // upgrades
 		})
 	}
