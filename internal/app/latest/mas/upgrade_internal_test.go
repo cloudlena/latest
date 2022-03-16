@@ -3,7 +3,7 @@ package mas
 import (
 	"testing"
 
-	"github.com/mastertinner/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest"
 	"github.com/matryer/is"
 )
 
@@ -62,7 +62,7 @@ Xcode (7.0), Screens VNC - Access Your Computer From Anywhere (3.6.7)
 			t.Parallel()
 			is := is.New(t)
 
-			u := upgrader{name: "mas"}
+			u := Upgrader{name: "mas"}
 
 			upgrades := u.upgradesFromOutput(tc.output)
 

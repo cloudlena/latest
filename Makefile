@@ -1,5 +1,5 @@
 .PHONY: build
-all:
+build:
 	go build -o bin/latest
 
 .PHONY: install

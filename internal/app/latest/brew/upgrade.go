@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mastertinner/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest"
 )
 
 // These regexes contain the name and version of upgrades.
@@ -17,7 +17,7 @@ var (
 )
 
 // Upgrade updates and upgrades brew.
-func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
+func (u *Upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	udCmd := exec.Command("brew", "update")
 	ugCmd := exec.Command("brew", "upgrade", "--cleanup")
 
@@ -73,7 +73,7 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	return nil
 }
 
-func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
+func (u *Upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 	upgrades := []latest.Upgrade{}
 
 	lines := strings.Split(out, "\n")
@@ -92,7 +92,7 @@ func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 	return upgrades
 }
 
-func (u *upgrader) upgradesFromCaskOutput(out string) []latest.Upgrade {
+func (u *Upgrader) upgradesFromCaskOutput(out string) []latest.Upgrade {
 	upgrades := []latest.Upgrade{}
 
 	lines := strings.Split(out, "\n")

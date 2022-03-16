@@ -7,14 +7,14 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mastertinner/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest"
 )
 
 // upgradeRegex contains the name and version of upgrades.
 var upgradeRegex = regexp.MustCompile(`^ ?(.*) \((.*)\)$`)
 
 // Upgrade updates and upgrades brew.
-func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
+func (u *Upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	cmd := exec.Command("mas", "upgrade")
 	if u.verbose {
 		cmd.Stdout = os.Stdout
@@ -34,7 +34,7 @@ func (u *upgrader) Upgrade(upgradesCh chan<- latest.Upgrade) error {
 	return nil
 }
 
-func (u *upgrader) upgradesFromOutput(out string) []latest.Upgrade {
+func (u *Upgrader) upgradesFromOutput(out string) []latest.Upgrade {
 	upgrades := []latest.Upgrade{}
 
 	lines := strings.Split(out, "\n")

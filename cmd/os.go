@@ -7,12 +7,12 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
+	"github.com/cloudlena/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest/brew"
+	"github.com/cloudlena/latest/internal/app/latest/gem"
+	"github.com/cloudlena/latest/internal/app/latest/mas"
+	"github.com/cloudlena/latest/internal/app/latest/npm"
 	"github.com/fatih/color"
-	"github.com/mastertinner/latest/internal/app/latest"
-	"github.com/mastertinner/latest/internal/app/latest/brew"
-	"github.com/mastertinner/latest/internal/app/latest/gem"
-	"github.com/mastertinner/latest/internal/app/latest/mas"
-	"github.com/mastertinner/latest/internal/app/latest/npm"
 	"github.com/spf13/cobra"
 )
 

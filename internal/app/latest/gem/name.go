@@ -1,6 +1,6 @@
 package gem
 
 // Name returns the name of the brew executable.
-func (u *upgrader) Name() string {
+func (u *Upgrader) Name() string {
 	return u.name
 }

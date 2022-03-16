@@ -2,19 +2,23 @@ linters:
   enable-all: true
   disable:
     - exhaustivestruct
+    - exhaustruct
     - forbidigo
     - funlen
     - gochecknoglobals
     - gochecknoinits
+    - golint
     - ifshort
+    - interfacer
     - lll
+    - maligned
     - nlreturn
+    - scopelint
+    - varnamelen
     - wsl
 
 linters-settings:
   govet:
     check-shadowing: true
-  maligned:
-    suggest-new: true
   misspell:
     locale: US

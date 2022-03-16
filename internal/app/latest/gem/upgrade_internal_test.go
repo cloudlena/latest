@@ -3,7 +3,7 @@ package gem
 import (
 	"testing"
 
-	"github.com/mastertinner/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest"
 	"github.com/matryer/is"
 )
 
@@ -84,7 +84,7 @@ Done installing documentation for rack after 0 seconds
 			t.Parallel()
 			is := is.New(t)
 
-			u := upgrader{name: "gem"}
+			u := Upgrader{name: "gem"}
 
 			upgrades := u.upgradesFromOutput(tc.output)
 

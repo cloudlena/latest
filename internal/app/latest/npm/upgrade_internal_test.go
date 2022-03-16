@@ -3,7 +3,7 @@ package npm
 import (
 	"testing"
 
-	"github.com/mastertinner/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest"
 	"github.com/matryer/is"
 )
 
@@ -63,7 +63,7 @@ added 5 packages from 3 contributors and updated 3 packages in 2.446s
 			t.Parallel()
 			is := is.New(t)
 
-			u := upgrader{name: "npm"}
+			u := Upgrader{name: "npm"}
 
 			upgrades := u.upgradesFromOutput(tc.output)
 

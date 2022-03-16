@@ -3,7 +3,7 @@ package brew
 import (
 	"testing"
 
-	"github.com/mastertinner/latest/internal/app/latest"
+	"github.com/cloudlena/latest/internal/app/latest"
 	"github.com/matryer/is"
 )
 
@@ -43,7 +43,7 @@ zsh completions have been installed to:
 			t.Parallel()
 			is := is.New(t)
 
-			u := upgrader{name: "brew"}
+			u := Upgrader{name: "brew"}
 
 			upgrades := u.upgradesFromOutput(tc.output)
 
@@ -119,7 +119,7 @@ Warning: It seems there is already an App at '/Applications/Visual Studio Code.a
 			t.Parallel()
 			is := is.New(t)
 
-			u := upgrader{name: "brew"}
+			u := Upgrader{name: "brew"}
 
 			upgrades := u.upgradesFromCaskOutput(tc.output)
 
