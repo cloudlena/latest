@@ -1,6 +1,8 @@
 linters:
   enable-all: true
   disable:
+    - deadcode
+    - dupword
     - exhaustivestruct
     - exhaustruct
     - forbidigo
@@ -13,7 +15,10 @@ linters:
     - lll
     - maligned
     - nlreturn
+    - nosnakecase
     - scopelint
+    - structcheck
+    - varcheck
     - varnamelen
     - wsl
 
